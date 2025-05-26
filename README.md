@@ -22,6 +22,6 @@ go get github.com/jacobhq/unicornhatmini-go@latest
 
 ---
 
-*For a usage example, see [main.go](main.go).*
+*For a usage example, see [examples/main.go](examples/main.go).*
 
 This library has only been tested on a Pi 4, so if you experience problems on other models, feel free to open an issue.
