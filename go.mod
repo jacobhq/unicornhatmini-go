@@ -1,4 +1,4 @@
-module unicornhatmini
+module github.com/jacobhq/unicornhatmini-go
 
 go 1.23.4
 
