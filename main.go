@@ -315,6 +315,9 @@ func main() {
 		log.Fatalf("Failed to initialize UnicornHATMini: %v", err)
 	}
 
+	unicorn.SetBrightness(0.1)
+	unicorn.SetRotation(0)
+
 	c := make(chan os.Signal, 1)
 	signal.Notify(c, os.Interrupt, syscall.SIGTERM)
 	go func() {
@@ -326,19 +329,24 @@ func main() {
 		os.Exit(0)
 	}()
 
-	unicorn.SetBrightness(0.2)
-
-	ticker := time.NewTicker(time.Second / 60)
+	ticker := time.NewTicker(time.Second / 30)
 	defer ticker.Stop()
+
+	step := 0.0
 
 	for {
 		select {
 		case <-ticker.C:
-			currentTime := float64(time.Now().UnixNano()) / 1e9
+			step += 1.0
 
-			for y := 0; y < Rows; y++ {
-				for x := 0; x < Cols; x++ {
-					hue := (currentTime / 4.0) + (float64(x) / float64(Cols*2)) + (float64(y) / float64(Rows))
+			for x := 0; x < Cols; x++ {
+				for y := 0; y < Rows; y++ {
+					dx := (math.Sin(step/float64(Cols)+20) * float64(Cols)) + float64(Rows)
+					dy := (math.Cos(step/float64(Rows)) * float64(Rows)) + float64(Rows)
+					sc := (math.Cos(step/float64(Rows)) * float64(Rows)) + float64(Cols)
+
+					dist := math.Sqrt(math.Pow(float64(x)-dx, 2) + math.Pow(float64(y)-dy, 2))
+					hue := dist / sc
 					r, g, b := HSVToRGB(hue, 1.0, 1.0)
 					unicorn.SetPixel(x, y, r, g, b)
 				}
@@ -347,8 +355,6 @@ func main() {
 			if err := unicorn.Show(); err != nil {
 				fmt.Printf("Error showing display: %v\n", err)
 			}
-		case <-c:
-			return
 		}
 	}
 }
