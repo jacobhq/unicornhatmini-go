@@ -20,6 +20,14 @@ Install the module and import normally:
 go get github.com/jacobhq/unicornhatmini-go@latest
 ```
 
+Run your file (requires sudo unless user in gpio group):
+
+```
+sudo go run main.go
+```
+
+Or build your executable and run it with sudo, whatever is fine.
+
 ---
 
 *For a usage example, see [examples/main.go](examples/main.go).*
