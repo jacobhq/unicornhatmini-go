@@ -2,13 +2,13 @@ package main
 
 import (
 	"fmt"
+	"github.com/jacobhq/unicornhatmini-go"
 	"log"
 	"math"
 	"os"
 	"os/signal"
 	"syscall"
 	"time"
-	"unicornhatmini"
 )
 
 func main() {
